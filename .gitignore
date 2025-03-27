@@ -1,2 +1,5 @@
 .env
 env
+system_message.txt
+certificate.pem
+.gradio/
