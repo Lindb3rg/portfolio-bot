@@ -10,7 +10,7 @@ This project consists of a custom Chatbot class which uses Anthropic's Claude 3.
 
 ### Dependencies
 
-* Python 3.8 or higher
+* Python 3.11 or higher
 * Anthropic API key for Claude 3.7 Sonnet
 * Required Python packages:
   * anthropic
@@ -45,6 +45,14 @@ To run the chatbot:
   2. Run the main script:
     python main.py
   3. Open the provided URL in your browser (typically http://127.0.0.1:7860)
+
+6. Containerize
+
+# Build docker container
+docker build -t tag-name .
+
+# Run the container
+docker run -p 7860:7860 --env-file .env -v $(pwd)/system_message.txt:/app/system_message.txt portfolio-chatbot
 
 Help
 Common issues and solutions:

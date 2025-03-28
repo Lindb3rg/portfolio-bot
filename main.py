@@ -124,5 +124,5 @@ with gr.Blocks(title=new_chatbot.title, analytics_enabled=False, theme=gr.themes
 
 if __name__ =="__main__":
     chat.queue()
-    chat.launch(debug=True)
+    chat.launch(server_name="0.0.0.0", debug=False)
     
