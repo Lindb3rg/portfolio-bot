@@ -3,3 +3,7 @@ env
 system_message.txt
 certificate.pem
 .gradio/
+old_main.py
+chat.ipynb
+__pycache__/
+*.pyc
