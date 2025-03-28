@@ -33,12 +33,16 @@ with gr.Blocks(title=new_chatbot.title, analytics_enabled=False, theme=gr.themes
         return "", history + [[user_message, None]]
     
     def init_chat(first_load_state, language):
+        welcome_message = new_chatbot.welcome_message
         
         if language != new_chatbot.language:
-            translated_message = new_chatbot.translate_text(new_chatbot.welcome_message,language)
-            new_chatbot.set_welcome_message(translated_message)
+            complete_translation = ""
+            for chunk in new_chatbot.translate_text(welcome_message, language):
+                complete_translation = chunk
+            welcome_message = complete_translation
+            
         if first_load_state:
-            return [[None, new_chatbot.welcome_message]], False
+            return [[None, welcome_message]], False
         return [], first_load_state
     
     
