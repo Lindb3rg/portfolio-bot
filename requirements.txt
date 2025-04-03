@@ -1,3 +1,4 @@
 anthropic
 gradio
 python-dotenv
+boto3

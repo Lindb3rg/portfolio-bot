@@ -1,7 +1,6 @@
 import gradio as gr
-from api_config import api_key, system_message
+from config.config import api_key, system_message
 from chatbot import ChatBot
-
 
 new_chatbot = ChatBot(api_key=api_key,system_message=system_message)
 new_chatbot.title = "Adam Lindberg Resumé Chatbot"
@@ -124,5 +123,5 @@ with gr.Blocks(title=new_chatbot.title, analytics_enabled=False, theme=gr.themes
 
 if __name__ =="__main__":
     chat.queue()
-    chat.launch(server_name="0.0.0.0", debug=False)
+    chat.launch(server_name="0.0.0.0",server_port=7860, debug=False)
     
