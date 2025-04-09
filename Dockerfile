@@ -39,7 +39,7 @@ COPY . .
 # Set up cron job for certificate updating
 
 
-RUN echo "*/5 * * * * python3 /app/update_certificate_links.py >> /var/log/cron.log 2>&1" > /etc/cron.d/cert-updater
+RUN echo "*/5 * * * * /usr/local/bin/python /app/update_certificate_links.py >> /var/log/cron.log 2>&1" > /etc/cron.d/cert-updater
 # RUN echo "0 1 * * 1 python /app/update_certificate_links.py >> /var/log/cron.log 2>&1" > /etc/cron.d/cert-updater
 RUN chmod 0644 /etc/cron.d/cert-updater
 RUN crontab /etc/cron.d/cert-updater

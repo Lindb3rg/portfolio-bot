@@ -5,6 +5,9 @@ import boto3
 import logging
 from datetime import datetime
 from dotenv import load_dotenv
+import json
+
+from utils.tools import replace_certificate_link
 
 
 # Set up logging
@@ -13,7 +16,15 @@ logging.basicConfig(level=logging.INFO,
 logger = logging.getLogger(__name__)
 
 # Load environment variables from .env file
-load_dotenv('/app/.env')
+
+load_dotenv()
+
+# try: 
+#     print("Using container vars")
+#     load_dotenv('/app/.env')
+# except:
+#     print("Using local vars")
+#     load_dotenv()
 
 def generate_presigned_urls():
     """Generate pre-signed URLs for both certificates."""
@@ -29,6 +40,9 @@ def generate_presigned_urls():
         cert2_key = os.getenv('CERTIFICATE2_KEY')
         cert3_key = os.getenv('CERTIFICATE3_KEY')
         bucket_name = os.getenv('S3_BUCKET_NAME')
+        
+        print(f"**** {cert1_key} ****")
+        
         
         # Generate URLs with 8-day expiration (691,200 seconds)
         url1 = s3_client.generate_presigned_url('get_object',
@@ -55,11 +69,13 @@ def update_system_message(url1, url2, url3):
     try:
         # Paths
         file_path = os.getenv('FILE_PATH')
+        output_path="config/output.txt"
         
         # Read content from system_message.txt
         with open(file_path, 'r') as file:
             content = file.read()
         
+
         # Replace URLs using regex
         pattern1 = r'(\* CERTIFICATE 1 LINK: )https[^\n]*'
         pattern2 = r'(\* CERTIFICATE 2 LINK: )https[^\n]*'
@@ -77,7 +93,7 @@ def update_system_message(url1, url2, url3):
             updated_content += f"\n  * Last updated: {timestamp}"
         
         # Write updated content
-        with open(file_path, 'w') as file:
+        with open(output_path, 'w') as file:
             file.write(updated_content)
         
         logger.info(f"Updated system_message.txt with new URLs")
@@ -97,6 +113,8 @@ def main():
         
         # Update system_message.txt with new URLs
         update_system_message(url1, url2, url3)
+        
+        
         
         logger.info("Certificate link update process completed successfully")
     
