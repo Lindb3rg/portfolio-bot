@@ -18,9 +18,11 @@ class ChatBot:
     
     def __str__(self):
         return self.title
+
     
     def _setup_client(self):
         self.client = anthropic.Anthropic(api_key=self.api_key)
+        
     
     def set_title(self, title:str):
         self.title = title

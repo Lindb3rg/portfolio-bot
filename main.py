@@ -1,6 +1,7 @@
 import gradio as gr
 from api_config import api_key, system_message
 from chatbot import ChatBot
+from utils.decorators import check_internet_connection
 
 
 new_chatbot = ChatBot(api_key=api_key,system_message=system_message)
@@ -32,6 +33,7 @@ with gr.Blocks(title=new_chatbot.title, analytics_enabled=False, theme=gr.themes
     def user(user_message, history):
         return "", history + [[user_message, None]]
     
+
     def init_chat(first_load_state, language):
         welcome_message = new_chatbot.welcome_message
         
@@ -45,11 +47,17 @@ with gr.Blocks(title=new_chatbot.title, analytics_enabled=False, theme=gr.themes
             return [[None, welcome_message]], False
         return [], first_load_state
     
-    
+
     def bot(history, language):
         user_message = history[-1][0]
         history[-1][1] = ""
-        
+        print("*********************************")
+        print(history)
+        print("*********************************")
+        if not check_internet_connection():
+            history[-1][1] = "⚠️ No internet connection. Please check your network and try again."
+            yield history
+            return
         
         response_generator = new_chatbot.get_response(user_message)
         if language == new_chatbot.language:
@@ -59,12 +67,10 @@ with gr.Blocks(title=new_chatbot.title, analytics_enabled=False, theme=gr.themes
                 yield history
             
         else:
-            # For other languages, get the complete response first
             complete_response = ""
             for chunk in response_generator:
-                complete_response = chunk  # Each chunk contains the full response so far
+                complete_response = chunk 
             
-            # Then translate and stream the translation
             translation_generator = new_chatbot.translate_text(complete_response, language)
             for chunk in translation_generator:
                 history[-1][1] = chunk
@@ -81,14 +87,13 @@ with gr.Blocks(title=new_chatbot.title, analytics_enabled=False, theme=gr.themes
         translated_response = new_chatbot.translate_text(original_response,language)
         
         for chunk in translated_response:
-            complete_response = chunk  # Each chunk contains the full response so far
+            complete_response = chunk
         
         
         new_history = history.copy()
         new_history.append([f"Translate to {language}", complete_response])
         
         return new_history
-    
     
     
     def update_language(language):

@@ -1,0 +1,9 @@
+services:
+  portfolio-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./.env:/app/.env
