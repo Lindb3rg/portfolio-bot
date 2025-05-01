@@ -5,6 +5,7 @@ from typing import List, Optional, Tuple
 from dotenv import load_dotenv
 import os
 from utils.logger import logger
+from utils.decorators import timer
 
 
 
@@ -20,6 +21,8 @@ class CertificateTool:
         self.s3_bucket = S3
         self.expiry_seconds = 604800  # 7 days
     
+    
+    @timer
     def _extract_urls(self) -> List[Tuple[str, str]]:
         
         url_pattern = fr'https://{self.s3_bucket}\.s3\..*?\.amazonaws\.com/([^?]+)\?'
@@ -33,6 +36,7 @@ class CertificateTool:
         
         return urls
     
+    @timer
     def validate_and_update_urls(self) -> None:
 
         urls = self._extract_urls()
@@ -60,7 +64,7 @@ class CertificateTool:
         if updated:
             self._update_config_file()
     
-    
+    @timer
     def _generate_presigned_url(self, file_path: str) -> Optional[str]:
         try:
             result = subprocess.run(
@@ -74,7 +78,7 @@ class CertificateTool:
             logger.error(f"Error generating pre-signed URL: {e}")
             logger.error(f"Error output: {e.stderr}")
             return None
-    
+    @timer
     def _update_config_file(self) -> None:
         try:
             with open('config/config.py', 'r') as f:
@@ -91,7 +95,7 @@ class CertificateTool:
         except Exception as e:
             logger.error(f"Error updating config file: {e}")
     
-    
+    @timer
     def get_filtered_certificates(self, keyword: str = None) -> str:
         
         if keyword == None:

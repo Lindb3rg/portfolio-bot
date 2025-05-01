@@ -1,10 +1,11 @@
 import gradio as gr
-from api_config import api_key, system_message
+from api_config import API_KEY
 from chatbot import ChatBot
 from utils.decorators import check_internet_connection
+from config.config import IDENTITY
 
 
-new_chatbot = ChatBot(api_key=api_key,system_message=system_message)
+new_chatbot = ChatBot(api_key=API_KEY,system_message=IDENTITY)
 new_chatbot.title = "Adam Lindberg Resumé Chatbot"
 new_chatbot.welcome_message = "👋 Welcome to Adam Lindberg's resumé chatbot! I can tell you a little about Adam, his skills and projects. What would you like to know?"
 
@@ -103,7 +104,7 @@ with gr.Blocks(title=new_chatbot.title, analytics_enabled=False, theme=gr.themes
     
     
     
-    chat.load(init_chat, [first_load, default_language], [chatbot, first_load])
+    chat.load(init_chat, [first_load], [chatbot, first_load])
     
     submit_btn.click(user, [msg, chatbot], [msg, chatbot], queue=False).then(
         bot, [chatbot, default_language], chatbot

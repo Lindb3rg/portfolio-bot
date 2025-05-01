@@ -1,6 +1,6 @@
 import anthropic
-
-
+from config.config import TASK_SPECIFIC_INSTRUCTIONS
+from api_config import API_MODEL
 
 
 class ChatBot:
@@ -22,6 +22,9 @@ class ChatBot:
     
     def _setup_client(self):
         self.client = anthropic.Anthropic(api_key=self.api_key)
+        self.client.messages = [{"role": "user", "content": TASK_SPECIFIC_INSTRUCTIONS}]
+        
+        
         
     
     def set_title(self, title:str):
@@ -32,7 +35,7 @@ class ChatBot:
     
     def get_response(self, prompt: str):
         result = self.client.messages.stream(
-        model="claude-3-7-sonnet-20250219",
+        model=API_MODEL,
         max_tokens=1000,
         temperature=0.7,
         system=self.system_message,

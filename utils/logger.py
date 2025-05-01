@@ -1,7 +1,15 @@
 import logging
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,  # Set the minimum log level
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',  # Format of log messages
+    # filename='app.log',  # Save logs to this file
+    # filemode='w'  # 'w' to overwrite, 'a' to append
+)
+
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -16,3 +24,5 @@ def log_event(type, message):
     else:
         logger.warning(f"Log type could not be found for: {message}")
     return
+
+

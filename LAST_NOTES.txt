@@ -1,1 +1,0 @@
-Fixa så att botten kan få tag i certifikat.
