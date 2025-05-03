@@ -32,7 +32,7 @@ Dependencies:
 
 
 class VectorStore:
-    def __init__(self, folders):
+    def __init__(self, folders, overwrite_existing_db=False):
         self.folders = folders
         self.documents = []
         self.vectors = []
@@ -43,6 +43,7 @@ class VectorStore:
         self.color_map = {'portfolio':'blue', 'portfolio-projects':'green', 'technical-skills':'red'}
         self.doc_types = []
         self.colors = []
+        self.overwrite_existing_db = overwrite_existing_db
         
 
         

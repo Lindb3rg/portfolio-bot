@@ -8,3 +8,7 @@ chat.ipynb
 __pycache__/
 *.pyc
 requirements_local.txt
+vector-db/chroma.sqlite3
+vector-db/index.faiss
+vector-db/index.pkl
+vector-db
