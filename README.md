@@ -30,13 +30,15 @@ cd portfolio-chatbot
 
 2. Install required packages
 
-pip install anthropic gradio python-dotenv
+python -m venv env
+
+pip install -r requirements.txt
 
 3. Create an .env file in your project root with your API key
 
 ANTHROPIC_API_KEY=your_api_key_here
 
-4. Rename the existing system_message.txt file or create a new file. The class expects a file called system_message.py
+4. Rename the existing system_message_example.txt file or create a new file called system_message.txt and have this at root level. 
 
 5. Executing program
 
