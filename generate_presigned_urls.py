@@ -79,7 +79,7 @@ def validate_and_update_urls() -> None:
                         error_response = requests.get(url, timeout=5)
                         if "<Message>Request has expired</Message>" in error_response.text:
                             
-                            logger.warning(f"URL for {file_path} has expired. Generating new pre-signed URL...")
+                            # logger.warning(f"URL for {file_path} has expired. Generating new pre-signed URL...")
                             new_url = _generate_presigned_url(file_path)
                             
                             if new_url:
