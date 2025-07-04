@@ -51,10 +51,10 @@ To run the chatbot:
 6. Containerize
 
 # Build docker container
-docker build -t tag-name .
+docker build --platform linux/amd64 -t your-tag-name .
 
 # Run the container
-docker run -p 7860:7860 --env-file .env -v $(pwd)/system_message.txt:/app/system_message.txt portfolio-chatbot
+docker run -p 7860:7860 --env-file .env -v $(pwd)/system_message.txt:/app/system_message.txt your-tag-name
 
 Help
 Common issues and solutions:
